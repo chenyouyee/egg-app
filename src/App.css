@@ -1,0 +1,12 @@
+.task-item {
+    background-color: blue;
+}
+
+.task-item:hover {
+    background-color: green;
+}
+
+.task-item.task-item-inactive {
+    text-decoration: line-through;
+    background-color: grey;
+}
