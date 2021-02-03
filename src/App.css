@@ -1,3 +1,8 @@
+.goal-item:hover {
+    opacity: 0.75;
+}
+
+
 .task-item {
     background-color: blue;
 }
