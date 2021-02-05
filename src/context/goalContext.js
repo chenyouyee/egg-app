@@ -14,6 +14,7 @@ function goalReducer(state, action) {
     let newGoal
     let goalId
     let goalsCopy
+    let subgoalsCopy
     switch (action.type) {
         case 'ADD_GOAL':
             newId = Math.random()
@@ -43,11 +44,19 @@ function goalReducer(state, action) {
         case 'ADD_SUBGOAL':
             newId = Math.random()
             let newSubgoal = {'id': newId, 'content': action.payload.content, parentId: action.payload.goalId}
-            let subgoalsCopy = [...state.subgoals, newSubgoal]
+            subgoalsCopy = [...state.subgoals, newSubgoal]
 
             return {
                 ...state,
                 subgoals: subgoalsCopy
+            }
+        case 'DELETE_SUBGOAL':
+            goalId = action.payload
+            subgoalsCopy = state.subgoals.filter(t => t.id !== goalId)
+
+            return {
+                ...state,
+                subgoals:subgoalsCopy
             }
 
         default: {
