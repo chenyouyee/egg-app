@@ -10,12 +10,13 @@ const findGoalById = (goals, id) => {
 }
 
 function goalReducer(state, action) {
+    let newId
     let newGoal
     let goalId
     let goalsCopy
     switch (action.type) {
         case 'ADD_GOAL':
-            const newId = Math.random()
+            newId = Math.random()
             newGoal = { 'id': newId, 'content': action.payload, 'status': "active" }
             goalsCopy = [...state.goals, newGoal]
             return {
@@ -39,6 +40,16 @@ function goalReducer(state, action) {
                 ...state,
                 goals:goalsCopy
             }
+        case 'ADD_SUBGOAL':
+            newId = Math.random()
+            let newSubgoal = {'id': newId, 'content': action.payload.content, parentId: action.payload.goalId}
+            let subgoalsCopy = [...state.subgoals, newSubgoal]
+
+            return {
+                ...state,
+                subgoals: subgoalsCopy
+            }
+
         default: {
             return state
         }
@@ -46,7 +57,7 @@ function goalReducer(state, action) {
 }
 
 export const GoalProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(goalReducer, {goals: []})
+    const [state, dispatch] = useReducer(goalReducer, {goals: [], subgoals: []})
 
     return (
         <GoalDispatchContext.Provider value={dispatch}>

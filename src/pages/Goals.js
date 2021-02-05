@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Container, Button, Form, FormControl, Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 import { useGoalState, useGoalDispatch } from '../context/goalContext'
 
@@ -25,7 +26,14 @@ export default function Goals() {
     }
 
     const goalsMarkup = goalState.goals.map(g => (
-        <Goal key={g.id} goal={g} onClick={ () => strikeGoal(g) } />
+        <Link className={"link-plain"} key={g.id} to={{
+            pathname:"/subgoals",
+            state: {
+                parent: g
+            }
+        }}>
+            <Goal goal={g} />
+        </Link>
     ))
 
     return (

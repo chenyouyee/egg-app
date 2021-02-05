@@ -1,3 +1,8 @@
+.link-plain, .link-plain:focus, .link-plain:hover, .link-plain:visited {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 .goal-item:hover {
     opacity: 0.75;
 }
