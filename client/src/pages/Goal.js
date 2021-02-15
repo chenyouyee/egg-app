@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Col } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import basketIcon from '../assets/basket.png'
 
 export default function Goal({ goal, onClick }) {
@@ -10,7 +10,7 @@ export default function Goal({ goal, onClick }) {
             <div className={classes}>
                 { goal.content }
             </div>
-            <img src={basketIcon} style={{maxWidth: "250px", width:"100%"}} />
+            <img src={basketIcon} style={{maxWidth: "250px", width:"100%"}} alt={"goal icon"} />
         </Col>
     )
 }

@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Container, Row } from 'react-bootstrap'
-
-import { useGoalState, useGoalDispatch } from '../context/goalContext'
+import { Button, Row } from 'react-bootstrap'
 
 export default function SubgoalsPanel({selected, deleteHandler}) {
-    const goalDispatch = useGoalDispatch()
-    const goalState = useGoalState()
     const [selectedTab, setSelectedTab] = useState('Tasks')
 
     function tabLabel(label) {
@@ -17,7 +13,7 @@ export default function SubgoalsPanel({selected, deleteHandler}) {
     const Nav = () => {
         const tabList = ["Tasks", "Options"] // Add new tabs here
         const tabMarkup = tabList.map(tab => (
-            <Button variant="link" className="link-plain" onClick={() => {setSelectedTab(tab)}}>{tabLabel(tab)}</Button>
+            <Button key={tab} variant="link" className="link-plain" onClick={() => {setSelectedTab(tab)}}>{tabLabel(tab)}</Button>
         ))
 
         return (

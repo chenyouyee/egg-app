@@ -16,9 +16,13 @@ function goalReducer(state, action) {
     let goalsCopy
     let subgoalsCopy
     switch (action.type) {
+        case 'GET_GOALS':
+            return {
+                ...state,
+                goals: action.payload
+            }
         case 'ADD_GOAL':
-            newId = Math.random()
-            newGoal = { 'id': newId, 'content': action.payload, 'status': "active" }
+            newGoal = action.payload
             goalsCopy = [...state.goals, newGoal]
             return {
                 ...state,

@@ -62,6 +62,5 @@ export default function Subgoals(props) {
                 { selectedSubgoal && <SubgoalsPanel selected={selectedSubgoal} deleteHandler={deleteSubgoal} /> }
             </Col>
         </Container>
-
     )
 }

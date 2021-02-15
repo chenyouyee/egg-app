@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { Container, Button, Form, FormControl, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
@@ -12,28 +13,56 @@ export default function Goals() {
 
     const [content, setContent] = useState('')
 
+    useEffect(() => {
+        getGoals()
+    })
+
+    const getGoals = () => {
+        axios.get('/api/goal/all')
+            .then(res => {
+                goalDispatch({ type: 'GET_GOALS', payload: res.data })
+            })
+    }
+
     const addGoal = (e) => {
         e.preventDefault()
-        if(content.trim() !== '') goalDispatch({ type: 'ADD_GOAL', payload: content })
+
+        axios.post('/api/goal/', {"content": content})
+            .then(res => { 
+                console.log(res) 
+                if(content.trim() !== '') goalDispatch({ type: 'ADD_GOAL', payload: res.data })
+            })
 
         setContent('')
     }
 
     const strikeGoal = (goal) => {
-        goal.status === 'active' 
-            ? goalDispatch({ type: 'STRIKE_GOAL', payload: goal.id })
-            : goalDispatch({ type: 'DELETE_GOAL', payload: goal.id })
+        if(goal.status === 'active') {
+            goalDispatch({ type: 'STRIKE_TASK', payload: goal.id })
+        } else {
+            axios.delete(`/api/goal/${goal.id}`)
+                .then(res => {
+                    if(res.status === 200) {
+                        goalDispatch({ type: 'DELETE_GOAL', payload: goal.id })
+                    }
+                    console.log(res.data.message)
+                    
+                })
+        }
     }
 
     const goalsMarkup = goalState.goals.map(g => (
-        <Link className={"link-plain"} key={g.id} to={{
-            pathname:"/subgoals",
-            state: {
-                parent: g
-            }
-        }}>
-            <Goal goal={g} />
-        </Link>
+        <div key={g.id} >
+            <Link className={"link-plain"} to={{
+                pathname:"/subgoals",
+                state: {
+                    parent: g
+                }
+            }}>
+                <Goal goal={g} />
+            </Link>
+            <Button onClick={() => strikeGoal(g)}>Delete goal</Button>
+        </div>
     ))
 
     return (

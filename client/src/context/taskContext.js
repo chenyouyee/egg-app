@@ -14,9 +14,15 @@ function taskReducer(state, action) {
     let taskId
     let tasksCopy
     switch (action.type) {
+        case 'GET_TASKS':
+            return {
+                ...state,
+                tasks: action.payload
+            }
         case 'ADD_TASK':
-            const newId = Math.random()
-            newTask = { 'id': newId, 'content': action.payload, 'status': "active" }
+            //const newId = Math.random()
+            //newTask = { 'id': newId, 'content': action.payload, 'status': "active" }
+            newTask = action.payload
             tasksCopy = [...state.tasks, newTask]
             return {
                 ...state,

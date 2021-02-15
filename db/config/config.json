@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "viole",
+    "password": "root",
+    "database": "eggdb",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "twjielfwxgwynl",
+    "password": "2456d3ae78d1b4989e3d35939b4f9a990657029cbd0fc23b41f12014654b855c",
+    "database": "d9gb0p98hh8e04",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "use_env_variable": "DATABASE_URL"
+  }
+}

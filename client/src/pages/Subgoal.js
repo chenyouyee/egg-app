@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import eggIcon from '../assets/fried-egg.png'
 
 export default function Subgoal({ subgoal, onClick }) {
@@ -12,7 +12,7 @@ export default function Subgoal({ subgoal, onClick }) {
             onClick={onClick} 
             role="button"
         >
-            <img src={eggIcon} style={{maxWidth: "8vw", width:"100%"}} />
+            <img src={eggIcon} style={{maxWidth: "8vw", width:"100%"}} alt={"subgoal icon"} />
             <div className={classes}>
                 { subgoal.content }
             </div>
