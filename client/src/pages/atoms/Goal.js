@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col } from 'react-bootstrap'
-import basketIcon from '../assets/basket.png'
+import basketIcon from '../../assets/basket.png'
 
 export default function Goal({ goal, onClick }) {
     let classes = "goal-title py-2 px-3 mt-2 rounded pill"

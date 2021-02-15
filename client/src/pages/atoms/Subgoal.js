@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row } from 'react-bootstrap'
-import eggIcon from '../assets/fried-egg.png'
+import eggIcon from '../../assets/fried-egg.png'
 
 export default function Subgoal({ subgoal, onClick }) {
     let classes = "goal-title py-2 px-3 rounded pill"

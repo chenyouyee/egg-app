@@ -1,54 +1,24 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { Container, Button, Form, FormControl, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-import { useGoalState, useGoalDispatch } from '../context/goalContext'
+import { useGoalState } from '../context/goalContext'
+import useGoalService from '../services/useGoalService'
 
-import Goal from './Goal'
+import Goal from './atoms/Goal'
 
 export default function Goals() {
-    const goalDispatch = useGoalDispatch()
     const goalState = useGoalState()
+    const { getGoals, addGoal, deleteGoal } = useGoalService()
 
     const [content, setContent] = useState('')
 
-    useEffect(() => {
-        getGoals()
-    })
+    useEffect(() => { getGoals() }, [getGoals])
 
-    const getGoals = () => {
-        axios.get('/api/goal/all')
-            .then(res => {
-                goalDispatch({ type: 'GET_GOALS', payload: res.data })
-            })
-    }
-
-    const addGoal = (e) => {
+    const addHandler = (e) => {
         e.preventDefault()
-
-        axios.post('/api/goal/', {"content": content})
-            .then(res => { 
-                console.log(res) 
-                if(content.trim() !== '') goalDispatch({ type: 'ADD_GOAL', payload: res.data })
-            })
-
+        if(content.trim() !== '') addGoal(content)
         setContent('')
-    }
-
-    const strikeGoal = (goal) => {
-        if(goal.status === 'active') {
-            goalDispatch({ type: 'STRIKE_TASK', payload: goal.id })
-        } else {
-            axios.delete(`/api/goal/${goal.id}`)
-                .then(res => {
-                    if(res.status === 200) {
-                        goalDispatch({ type: 'DELETE_GOAL', payload: goal.id })
-                    }
-                    console.log(res.data.message)
-                    
-                })
-        }
     }
 
     const goalsMarkup = goalState.goals.map(g => (
@@ -61,7 +31,7 @@ export default function Goals() {
             }}>
                 <Goal goal={g} />
             </Link>
-            <Button onClick={() => strikeGoal(g)}>Delete goal</Button>
+            <Button onClick={() => deleteGoal(g)}>Delete goal</Button>
         </div>
     ))
 
@@ -69,8 +39,8 @@ export default function Goals() {
         <Container className="py-4 justify-content-center align-items-center">
             <h1 className="display-2 mb-4 text-center">GOALS</h1>
             <Row className="mb-3 justify-content-center">
-                <Button className="mb-2 mr-2" onClick={addGoal}>Add goal</Button>
-                <Form onSubmit={addGoal}>
+                <Button className="mb-2 mr-2" onClick={addHandler}>Add goal</Button>
+                <Form onSubmit={addHandler}>
                     <FormControl 
                         placeholder="Enter a new goal!" 
                         value={content} 

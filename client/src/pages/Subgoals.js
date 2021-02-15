@@ -3,7 +3,7 @@ import { Col, Container, Button, Form, FormControl, Row } from 'react-bootstrap'
 
 import { useGoalState, useGoalDispatch } from '../context/goalContext'
 
-import Subgoal from './Subgoal'
+import Subgoal from './atoms/Subgoal'
 import SubgoalsPanel from './SubgoalsPanel'
 
 export default function Subgoals(props) {
