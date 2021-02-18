@@ -1,34 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Col, Container, Button, Form, FormControl, Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
-import { useGoalState, useGoalDispatch } from '../context/goalContext'
+import { useGoalState } from '../context/goalContext'
+import useGoalService from '../services/useGoalService'
 
 import Subgoal from './atoms/Subgoal'
 import SubgoalsPanel from './SubgoalsPanel'
 
 export default function Subgoals(props) {
     const parentGoal = props.location.state.parent
-    const goalDispatch = useGoalDispatch()
     const goalState = useGoalState()
+    const { getSubgoals, addSubgoal, deleteSubgoal } = useGoalService()
 
     const [content, setContent] = useState('')
     const [selectedSubgoal, setSelectedSubgoal] = useState('')
 
-    const addSubgoal = (e) => {
+    useEffect(() => { getSubgoals(parentGoal) }, [getSubgoals, parentGoal])
+
+    const addHandler = (e) => {
         e.preventDefault()
-        if(content.trim() !== '') goalDispatch({ type: 'ADD_SUBGOAL', payload: {content, parentId: parentGoal.id} })
+        if(content.trim() !== '') addSubgoal(content, parentGoal.id)
 
         setContent('')
     }
 
-    const strikeSubgoal = (subgoal) => {
-        subgoal.status === 'active' 
-            ? goalDispatch({ type: 'STRIKE_SUBGOAL', payload: subgoal.id })
-            : goalDispatch({ type: 'DELETE_SUBGOAL', payload: subgoal.id })
-    }
+    // const strikeSubgoal = (subgoal) => {
+    //     subgoal.status === 'active' 
+    //         ? goalDispatch({ type: 'STRIKE_SUBGOAL', payload: subgoal.id })
+    //         : goalDispatch({ type: 'DELETE_SUBGOAL', payload: subgoal.id })
+    // }
 
-    const deleteSubgoal = () => {
-        goalDispatch({ type: "DELETE_SUBGOAL", payload: selectedSubgoal.id})
+    const deleteHandler = () => {
+        deleteSubgoal(selectedSubgoal)
         setSelectedSubgoal('')
     }
 
@@ -38,12 +42,17 @@ export default function Subgoals(props) {
     ))
 
     return (
-        <Container className="d-flex py-3">
+        <div className="d-flex py-3">
+            <Col md={1} className={"mr-1"}>
+                <Link className={"link-plain"} to={"/"}>
+                    <h3 className={"link-plain"} style={{"textAlign": "center"}}>{"«"}</h3>
+                </Link>
+            </Col>
             <Col md={8} className="mr-2 align-items-center">
                 <h1 className="display-2 mb-4">{parentGoal.content}</h1>
                 <Row className="mb-3">
-                    <Button className="mb-2 mr-2" onClick={addSubgoal}>+</Button>
-                    <Form onSubmit={addSubgoal}>
+                    <Button className="mb-2 mr-2" onClick={addHandler}>+</Button>
+                    <Form onSubmit={addHandler}>
                         <FormControl 
                             placeholder="Enter a new subgoal!" 
                             value={content} 
@@ -59,8 +68,8 @@ export default function Subgoals(props) {
 
             </Col>
             <Col md={4}>
-                { selectedSubgoal && <SubgoalsPanel selected={selectedSubgoal} deleteHandler={deleteSubgoal} /> }
+                { selectedSubgoal && <SubgoalsPanel selected={selectedSubgoal} deleteHandler={deleteHandler} /> }
             </Col>
-        </Container>
+        </div>
     )
 }

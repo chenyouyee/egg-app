@@ -5,12 +5,10 @@ const GoalDispatchContext = createContext()
 
 const findGoalById = (goals, id) => {
     const goal = goals.find(g => g.id === id)
-    console.log(goal)
     return goal
 }
 
 function goalReducer(state, action) {
-    let newId
     let newGoal
     let goalId
     let goalsCopy
@@ -45,9 +43,13 @@ function goalReducer(state, action) {
                 ...state,
                 goals:goalsCopy
             }
+        case 'GET_SUBGOALS':
+            return {
+                ...state,
+                subgoals: action.payload
+            }
         case 'ADD_SUBGOAL':
-            newId = Math.random()
-            let newSubgoal = {'id': newId, 'content': action.payload.content, parentId: action.payload.goalId}
+            let newSubgoal = action.payload
             subgoalsCopy = [...state.subgoals, newSubgoal]
 
             return {

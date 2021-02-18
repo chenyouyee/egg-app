@@ -22,7 +22,7 @@ export default function Goals() {
     }
 
     const goalsMarkup = goalState.goals.map(g => (
-        <div key={g.id} >
+        <div key={g.id} className="d-flex flex-column align-items-center" >
             <Link className={"link-plain"} to={{
                 pathname:"/subgoals",
                 state: {
@@ -31,12 +31,12 @@ export default function Goals() {
             }}>
                 <Goal goal={g} />
             </Link>
-            <Button onClick={() => deleteGoal(g)}>Delete goal</Button>
+            <Button className="mt-2" onClick={() => deleteGoal(g)}>Delete goal</Button>
         </div>
     ))
 
     return (
-        <Container className="py-4 justify-content-center align-items-center">
+        <Container className="py-3 justify-content-center align-items-center">
             <h1 className="display-2 mb-4 text-center">GOALS</h1>
             <Row className="mb-3 justify-content-center">
                 <Button className="mb-2 mr-2" onClick={addHandler}>Add goal</Button>

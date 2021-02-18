@@ -4,7 +4,7 @@
     box-shadow: none;
 }
 
-.goal-item:hover {
+.goal-item:hover, .link-plain:hover {
     opacity: 0.75;
 }
 

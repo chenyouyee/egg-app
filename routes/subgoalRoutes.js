@@ -1,9 +1,9 @@
 module.exports = app => {
-    const goal = require("../controllers/goalController.js");
+    const goal = require("../controllers/subgoalController.js");
   
     var router = require("express").Router();
 
-    router.get("/all", goal.getAll)
+    router.get("/all/:parentId", goal.getAll)
 
     // Create a new Goal
     router.post("/", goal.create);
@@ -11,5 +11,5 @@ module.exports = app => {
     // Delete a Goal with id
     router.delete("/:id", goal.delete);
   
-    app.use('/api/goal', router);
+    app.use('/api/subgoal', router);
   };

@@ -27,7 +27,9 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 //   // res.send("test message")
 // });
 
-require("./routes/goalRoutes")(app); // load in our routes, passing in `app` as parameter
+// load in our routes, passing in `app` as parameter
+require("./routes/goalRoutes")(app); 
+require("./routes/subgoalRoutes")(app);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
