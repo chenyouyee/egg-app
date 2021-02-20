@@ -1,5 +1,4 @@
 const { Subgoal } = require("../db/models");
-const { Op } = require('sequelize')
 
 exports.getAll = (req, res) => {
   const parentId = req.params.parentId

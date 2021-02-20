@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { Col, Container, Button, Form, FormControl, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-import { useGoalState } from '../context/goalContext'
-import useGoalService from '../services/useGoalService'
+import { useSubgoalState } from '../context/subgoalContext'
+import useSubgoalService from '../services/useSubgoalService'
 
 import Subgoal from './atoms/Subgoal'
 import SubgoalsPanel from './SubgoalsPanel'
 
 export default function Subgoals(props) {
     const parentGoal = props.location.state.parent
-    const goalState = useGoalState()
-    const { getSubgoals, addSubgoal, deleteSubgoal } = useGoalService()
+    const subgoalState = useSubgoalState()
+    const { getSubgoals, addSubgoal, deleteSubgoal } = useSubgoalService()
 
     const [content, setContent] = useState('')
     const [selectedSubgoal, setSelectedSubgoal] = useState('')
@@ -36,7 +36,7 @@ export default function Subgoals(props) {
         setSelectedSubgoal('')
     }
 
-    const subgoalsMarkup = goalState.subgoals.map(g => (
+    const subgoalsMarkup = subgoalState.subgoals.map(g => (
         // Clicking the same task will toggle the selection on and off
         <Subgoal key={g.id} subgoal={g} onClick={ () => {selectedSubgoal !== g ? setSelectedSubgoal(g) : setSelectedSubgoal('') }} />
     ))
@@ -60,7 +60,7 @@ export default function Subgoals(props) {
                         />
                     </Form>
                 </Row>
-                { goalState.subgoals && (
+                { subgoalState.subgoals && (
                     <div>
                         { subgoalsMarkup }
                     </div>

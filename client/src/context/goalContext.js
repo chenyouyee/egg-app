@@ -12,7 +12,6 @@ function goalReducer(state, action) {
     let newGoal
     let goalId
     let goalsCopy
-    let subgoalsCopy
     switch (action.type) {
         case 'GET_GOALS':
             return {
@@ -43,28 +42,6 @@ function goalReducer(state, action) {
                 ...state,
                 goals:goalsCopy
             }
-        case 'GET_SUBGOALS':
-            return {
-                ...state,
-                subgoals: action.payload
-            }
-        case 'ADD_SUBGOAL':
-            let newSubgoal = action.payload
-            subgoalsCopy = [...state.subgoals, newSubgoal]
-
-            return {
-                ...state,
-                subgoals: subgoalsCopy
-            }
-        case 'DELETE_SUBGOAL':
-            goalId = action.payload
-            subgoalsCopy = state.subgoals.filter(t => t.id !== goalId)
-
-            return {
-                ...state,
-                subgoals:subgoalsCopy
-            }
-
         default: {
             return state
         }

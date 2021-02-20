@@ -1,5 +1,4 @@
-const { Goal } = require("../db/models");
-const { Op } = require('sequelize')
+const { sequelize, Goal, Subgoal } = require("../db/models");
 
 exports.getAll = (req, res) => {
   Goal.findAll()
@@ -16,10 +15,6 @@ exports.getAll = (req, res) => {
 
 // Create and Save a new Goal
 exports.create = (req, res) => {
-  console.log("-----")
-  console.log(req.body)
-  console.log("-----")
-
     // Validate request
     if (!req.body.content) {
         res.status(400).send({
@@ -49,24 +44,16 @@ exports.create = (req, res) => {
 
 exports.delete = (req, res) => {
     const id = req.params.id;
-  
-    Goal.destroy({
-      where: { id: id }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "Goal was deleted successfully!"
-          });
-        } else {
-          res.send({
-            message: `Cannot delete Goal with id=${id}. Maybe Goal was not found!`
-          });
-        }
+
+    try {
+      sequelize.transaction(async (t) => {
+        await Goal.destroy({ where: { id: id }, transaction: t })
+        await Subgoal.destroy({ where: { goalId: id }, transaction: t })
+        res.send({ message: "Goal was deleted successfully!" })
       })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete Goal with id=" + id
-        });
-      });
-  };
+    } catch(err) {
+      res.status(500).send({ error: err, message: "Could not delete Goal with id=" + id });
+      console.log(err)
+    }
+};
+  
